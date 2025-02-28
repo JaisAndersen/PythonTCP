@@ -8,17 +8,20 @@ serverSocket.listen(1)
 print("Server is ready to recieve")
 
 def handleClient(connectionSocket, adress):
-    try:
+    isRunning = True
+    while isRunning:
         sentence = connectionSocket.recv(1024).decode()
-        print(sentence)
-        capitalizedSentence = sentence.upper()
-        connectionSocket.send(capitalizedSentence.encode())
-    except:
-        print("fejl")
+        if sentence == "quit": 
+            print(sentence)
+            isRunning = False
+            print("Connection closed")
+        else:           
+            print(sentence)
+            capitalizedSentence = sentence.upper()
+            connectionSocket.send(capitalizedSentence.encode())  
     connectionSocket.close()
 
-isRunning = True
-while isRunning:    
+while True:    
     connectionSocket, addr = serverSocket.accept()
     print(addr)
     threading.Thread(target = handleClient, args = (connectionSocket, addr)).start()
