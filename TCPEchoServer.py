@@ -10,18 +10,9 @@ def handleClient(connectionSocket, adress):
     print(sentence)
     capitalizedSentence = sentence.upper()
     connectionSocket.send(capitalizedSentence.encode())
-    connectionSocket.close()
 
-while True:
+isRunning = True
+while isRunning:    
     connectionSocket, addr = serverSocket.accept()
     print(addr)
     threading.Thread(target = handleClient, args = (connectionSocket, addr)).start()
-
-# while True:
-#     connectionSocket, addr = serverSocket.accept()
-#     print(addr)
-#     sentence = connectionSocket.recv(1024).decode()
-#     print(sentence)
-#     capitalizedSentence = sentence.upper()
-#     connectionSocket.send(capitalizedSentence.encode())
-#     connectionSocket.close()
